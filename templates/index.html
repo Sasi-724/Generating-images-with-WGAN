@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generation with WGAN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        #generated-image {
+            margin-top: 30px;
+            width: 40%; /* Image will take 80% of the container's width */
+            max-width: 800px; /* Max width for larger screens */
+            height: auto; /* Automatically adjust height to maintain aspect ratio */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WGAN Image Generator</h1>
+        <p>Click the button below to generate a new image using the trained WGAN model.</p>
+        <button onclick="generateImage()">Generate Image</button>
+        <div>
+            <img id="generated-image" src="" alt="Generated Image will appear here" />
+        </div>
+        <footer>
+            <p>&copy; 2024 Image Generation with WGAN | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        function generateImage() {
+            fetch('/generate', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    const imageUrl = 'data:image/png;base64,' + data.image;
+                    document.getElementById('generated-image').src = imageUrl;
+                })
+                .catch(error => {
+                    console.error('Error generating image:', error);
+                    alert('An error occurred while generating the image. Please try again.');
+                });
+        }
+    </script>
+</body>
+</html>
